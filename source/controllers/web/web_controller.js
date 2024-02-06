@@ -1,9 +1,10 @@
-const getTestPage = (req, res) => {
-    return res.render('test.ejs')
+
+const getAuthenticationPage = async (req, res) => {
+    return res.render('auth/login_signup_page.ejs')
 }
 
 const WebController = {
-    getTestPage
+    getAuthenticationPage
 }
 
 export default WebController
