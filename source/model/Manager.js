@@ -5,7 +5,7 @@ import {sequelize} from '../configs/database.js'
 
 const ManagerSchema = sequelize.define(TableName.TABLE_MANAGER, {
    ID : {
-    type: DataTypes.UUID,
+    type: DataTypes.STRING(20),
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
     field: TableName.COLUM_ID_MANAGER

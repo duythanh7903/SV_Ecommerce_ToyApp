@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trang chủ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/navigation/vertical_navigation.css" />
+    <link rel="stylesheet" href="/css/navigation/horizontal_navigation.css" />
+    <link rel="stylesheet" href="/css/toast/toast.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <ul class="notifications"></ul>
+
+    <div class="sidebar">
+      <a href="/home">Products</a>
+      <a class="active" href="/companies">Companies</a>
+      <a href="/categories">Categories</a>
+      <a href="/customers">Customers</a>
+      <a href="/managers">Managers</a>
+      <a href="/statistical">Statistical</a>
+      <a href="/settings">Settings</a>
+      <button
+        type="button"
+        class="btn"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+        style="color: red; font-weight: bold"
+      >
+        Log out
+      </button>
+    </div>
+
+    <div class="content">
+      <div class="topnav">
+        <a href="/companies">All company</a>
+        <a class="active" href="">Add company</a>
+      </div>
+
+      <div class="w3-container" style="padding: 0; margin-top: 20px">
+        <div style="padding-top: 20px;">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Company name" aria-label="Username"
+                    aria-describedby="basic-addon1" name="colorName" autocomplete="off" required id="inputCompanyName">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                   <img id="imagePreview" style="width: 75px; height: 75px; object-fit: contain; padding: 2px; border: 1px solid black; margin-right: 5px;">
+                </div>
+                <input type="text" class="form-control" placeholder="Link Image(url)" aria-label="Username"
+                    aria-describedby="basic-addon1" name="colorName" autocomplete="off" required id="inputCompanyLink">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Countries" aria-label="Username"
+                    aria-describedby="basic-addon1" name="colorName" autocomplete="off" required id="inputCompanyCountries">
+            </div>
+            <button id="buttonAddCategory" class="btn btn-success">Add new</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Bạn sẽ đăng xuất tài khoản sau khi thực hiện hành động này!
+            </h5>
+          </div>
+          <div class="modal-body">Bạn vẫn muốn tiếp tục?</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Không
+            </button>
+            <form action="/handle_log_out" method="post">
+              <button type="submit" class="btn btn-danger">Đăng xuất</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/remote/company/company.add.js"></script>
+  </body>
+</html>
