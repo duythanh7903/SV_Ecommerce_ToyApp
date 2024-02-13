@@ -88,9 +88,12 @@ const getCompanyUpdatePage = async (req, res) => {
 
 const getProductPage = async (req, res) => { 
     const querySelectAllProduct = 
-        `SELECT products.*, managers.user_name as manager_name 
+        `SELECT products.*, managers.user_name as manager_name,
+        categories.category_name, companies.company_name 
         FROM PRODUCTS
-        JOIN managers ON managers.ID = products.created_by_manager`
+        JOIN managers ON managers.ID = products.created_by_manager
+        JOIN categories ON categories.id = products.id_category
+        JOIN  companies ON companies.ID = products.created_by_company`
     const [products, fields] = await pool.execute(querySelectAllProduct)
 
     return res.render('products/products_page.ejs', {

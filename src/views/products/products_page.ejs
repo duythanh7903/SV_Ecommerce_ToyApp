@@ -58,6 +58,10 @@
       <div class="topnav">
         <a class="active" href="/products">All product</a>
         <a href="/products/add">Add product</a>
+        <a href="/products/soldout">Sold out</a>
+        <a href="/products/selling">Selling</a>
+        <a href="/products/goodreview">Good review</a>
+        <a href="/products/comingsoon">Coming soon</a>
         <div class="search-container">
           <form action="/product/search" method="post">
             <input type="text" placeholder="Search by name" name="search" />
@@ -72,7 +76,8 @@
             <tr class="w3-light-grey">
               <th class="text-center">#</th>
               <th class="text-center">Product name</th>
-              <th class="text-center">Quantity</th>
+              <th class="text-center">Company</th>
+              <th class="text-center">Category</th>
               <th class="text-center">Created by</th>
               <th class="text-center">Created at</th>
               <th class="text-center">Updated at</th>
@@ -84,13 +89,20 @@
             <tr>
               <td class="text-center"><%=(i+1)%></td>
               <td class="text-center">
-                <%=(data[i].product_name.length>= 30) ? (data[i].product_name.slice(0, 31) +
+                <%=(data[i].product_name.length>= 15) ? (data[i].product_name.slice(0, 15) +
                 '...') : (data[i].product_name)%>
               </td>
-              <td class="text-center"><%=data[i].quantity%></td>
+              <td class="text-center">
+                <%=(data[i].company_name.length>= 15) ? (data[i].company_name.slice(0, 15) +
+                '...') : (data[i].company_name)%>
+              </td>
+              <td class="text-center">
+                <%=(data[i].category_name.length>= 15) ? (data[i].category_name.slice(0, 15) +
+                '...') : (data[i].category_name)%>
+              </td>
               <td class="text-center"><%=data[i].manager_name%></td>
-              <td class="text-center"><%=data[i].created_at%></td>
-              <td class="text-center"><%=data[i].updated_at%></td>
+              <td class="text-center"><%=data[i].created_at.slice(0, 10).trim()%></td>
+              <td class="text-center"><%=data[i].updated_at.slice(0, 10).trim()%></td>
               <td class="text-center d-flex flex-row justify-content-around">
                 <form
                   action="/products/details/<%=data[i].id%>"
