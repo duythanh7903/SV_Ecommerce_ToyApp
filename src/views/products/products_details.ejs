@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trang chủ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/navigation/vertical_navigation.css" />
+    <link rel="stylesheet" href="/css/navigation/horizontal_navigation.css" />
+    <link rel="stylesheet" href="/css/products/products.details.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style>
+        /* Style cho danh sách hình ảnh */
+        #imageList {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #imageList li {
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #imageList li img {
+            width: 150px;
+            height: 150px;
+            border: 2px solid #162938;
+            transition: border-color 0.3s ease;
+            object-fit: cover;
+            border-radius: 20px;
+            padding: 2px;
+            margin: 5px;
+        }
+
+        #imageList li img:hover {
+            border-color: #333;
+        }
+
+        /* Style cho khu vực xem trước */
+        #previewArea {
+            margin-top: 20px;
+        }
+
+        #previewImage {
+            max-width: 500px;
+            max-height: 400px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div class="sidebar">
+      <a class="active" href="/products">Products</a>
+      <a href="/companies">Companies</a>
+      <a href="/categories">Categories</a>
+      <a href="/customers">Customers</a>
+      <a href="/managers">Managers</a>
+      <a href="/statistical">Statistical</a>
+      <a href="/settings">Settings</a>
+      <button
+        type="button"
+        class="btn"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+        style="color: red; font-weight: bold"
+      >
+        Log out
+      </button>
+    </div>
+
+    <div class="content">
+      <div class="topnav">
+        <a href="/products">All product</a>
+        <a href="/products/add">Add product</a>
+        <a class="active" href="">Product details</a>
+      </div>
+
+      <div class="w3-container" style="padding: 0; margin-top: 20px">
+        <div class="container bootdey">
+            <div class="col-md-12">
+              <section class="panel">
+                <div class="panel-body">
+                  <div class="col-md-6">
+                    <div class="pro-img-details">
+                    <img style="width: 100%; height: 300px; object-fit: contain; margin-bottom: 50px;" src="http://127.0.0.1:7903<%=imgs[0].path_image%>" id="imagePreview">
+                      <ul id="imageList">
+                        <% imgs.forEach(function(image, index) { %>
+                            <li>
+                                <img src="http://127.0.0.1:7903<%=image.path_image%>" class="thumbnail">
+                            </li>
+                        <% }) %>
+                    </ul>
+                    </div>
+                    <div class="pro-img-list">
+                      <p><%=data.description%></p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <h1 class="pro-d-title"><%=data.product_name%></h1>
+                    <div class="product_meta">
+                      <span class="posted_in">
+                        <strong>Price:</strong>
+                        <%=Number(data.gia_ban).toLocaleString('us-US', {style:
+                        'currency' , currency: 'USD' })%>
+                      </span>
+                    </div>
+                    <div class="product_meta">
+                        <span class="posted_in">
+                          <strong>Import Price:</strong>
+                          <%=Number(data.gia_nhap).toLocaleString('us-US', {style:
+                          'currency' , currency: 'USD' })%>
+                        </span>
+                      </div>
+                    <div class="product_meta">
+                      <span class="posted_in">
+                        <strong>Category:</strong>
+                        <%=data.category_name%>.
+                      </span>
+                      <span class="tagged_as"
+                        ><strong>Created by company:</strong>
+                        <%=data.company_name%>.
+                      </span>
+                    </div>
+                    <div class="product_meta">
+                      <span class="posted_in">
+                        <strong>Quanity:</strong>
+                        <%=data.quantity%> <%=data.quantity > 1 ? 'products' : 'product'%>
+                      </span>
+                      <span class="tagged_as"
+                        ><strong>Purchases:</strong>
+                        <%=data.purchases%> <%=data.purchases > 1 ? 'times' : 'time'%>
+                      </span>
+                      <span class="tagged_as"
+                        ><strong>Added by manager:</strong>
+                        <%=data.manager_name%>
+                      </span>
+                    </div>
+                    <div class="product_meta">
+                      <span class="posted_in">
+                        <strong>Created at:</strong>
+                        <%=data.created_at%>
+                      </span>
+                      <span class="tagged_as"
+                        ><strong>Last updated:</strong>
+                        <%=data.updated_at%>
+                      </span>
+                    </div>
+                    <div class="product_meta text-center d-flex flex-row">
+                      <form action="/products/update/<%=data.id%>" method="get">
+                        <button
+                          type="submit"
+                          class="btn btn-outline-success"
+                          style="margin-right: 20px"
+                        >
+                          Update
+                        </button>
+                      </form>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal_delete"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Bạn sẽ đăng xuất tài khoản sau khi thực hiện hành động này!
+            </h5>
+          </div>
+          <div class="modal-body">Bạn vẫn muốn tiếp tục?</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Không
+            </button>
+            <form action="/handle_log_out" method="post">
+              <button type="submit" class="btn btn-danger">Đăng xuất</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        const imageList = document.getElementById('imageList')
+        const imagePreview = document.getElementById('imagePreview')
+        const thumbnails = imageList.querySelectorAll('.thumbnail')
+        thumbnails.forEach(function(thumbnail) {
+            thumbnail.addEventListener('click', function() {
+                const imgSrc = thumbnail.src
+                imagePreview.src = imgSrc   
+            });
+        })
+    </script>
+  </body>
+</html>

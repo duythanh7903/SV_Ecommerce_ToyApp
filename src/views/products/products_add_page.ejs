@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Thêm mới sản phẩm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/navigation/vertical_navigation.css" />
+    <link rel="stylesheet" href="/css/navigation/horizontal_navigation.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style>
+        .preview-image {
+            object-fit: contain;
+            border: 1px solid black;
+            padding: 2px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div class="sidebar">
+        <a class="active" href="/products">Products</a>
+        <a href="/companies">Companies</a>
+        <a href="/categories">Categories</a>
+        <a href="/customers">Customers</a>
+        <a href="/managers">Managers</a>
+        <a href="/statistical">Statistical</a>
+        <a href="/settings">Settings</a>
+      <button
+        type="button"
+        class="btn"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+        style="color: red; font-weight: bold"
+      >
+        Đăng xuất
+      </button>
+    </div>
+
+    <div class="content">
+      <div class="topnav">
+        <a href="/products">All product</a>
+        <a class="active" href="">Add product</a>
+      </div>
+
+      <form
+        style="padding-top: 20px"
+        method="post"
+        enctype="multipart/form-data"
+        action="/products/add/handle"
+      >
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">@</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Product name"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            name="productName"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <input
+            type="file"
+            name="image"
+            id="inputFileImage"
+            accept="image/*"
+            required
+            class="form-control"
+            name="image"
+            multiple
+          />
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">Images</span>
+          </div>
+        </div>
+
+        <div id="containerImagePreview"></div>
+
+        <!-- <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">USD</span>
+          </div>
+          <input
+            type="number"
+            class="form-control"
+            aria-label="Amount (to the nearest dollar)"
+            value="0"
+            name="price"
+            required
+          />
+          <div class="input-group-append">
+            <span class="input-group-text">0</span>
+          </div>
+        </div> -->
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Category</span>
+          </div>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            name="idCategory"
+            required
+          >
+            <% categories.forEach(item=> { %>
+              <option value="<%=item.ID%>"><%=item.CATEGORY_NAME%></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Company</span>
+          </div>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            name="idCompany"
+            required
+          >
+            <% companies.forEach(item=> { %>
+              <option value="<%=item.ID%>"><%=item.COMPANY_NAME%></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Description</span>
+          </div>
+          <textarea
+            class="form-control"
+            aria-label="With textarea"
+            name="description"
+            required
+          ></textarea>
+        </div>
+
+        <br />
+        <button type="submit" class="btn btn-success">Add product</button>
+      </form>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Bạn sẽ đăng xuất tài khoản sau khi thực hiện hành động này!
+            </h5>
+          </div>
+          <div class="modal-body">Bạn vẫn muốn tiếp tục?</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Không
+            </button>
+            <form action="/handle_log_out" method="post">
+              <button type="submit" class="btn btn-danger">Đăng xuất</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('inputFileImage');
+        const imagePreview = document.getElementById('containerImagePreview');
+
+        fileInput.addEventListener('change', function() {
+            imagePreview.innerHTML = '';
+            // Lặp qua từng file đã chọn và hiển thị xem trước
+            for (let i = 0; i < this.files.length; i++) {
+                const file = this.files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.width = 150; // Đặt kích thước xem trước của ảnh
+                    img.height = 150; // Đặt kích thước xem trước của ảnh
+                    img.classList.add('preview-image')
+                    imagePreview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+  </body>
+</html>
