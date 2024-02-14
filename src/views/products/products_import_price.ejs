@@ -32,23 +32,12 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <style>
-        .preview-image {
-            object-fit: contain;
-            border: 1px solid black;
-            padding: 2px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            margin-right: 10px;
-        }
-    </style>
   </head>
 
   <body>
     <div class="sidebar">
-        <a class="active" href="/products">Products</a>
-        <a href="/products/import/price">Imports of goods</a>
+        <a href="/products">Products</a>
+        <a class="active" href="/products/import/price">Imports of goods</a>
         <a href="/companies">Companies</a>
         <a href="/categories">Categories</a>
         <a href="/customers">Customers</a>
@@ -68,88 +57,78 @@
 
     <div class="content">
       <div class="topnav">
-        <a href="/products">All product</a>
-        <a href="/products/add">Add product</a>
-        <a href="/products/soldout">Sold out</a>
-        <a href="/products/selling">Selling</a>
-        <a href="/products/goodreview">Good review</a>
-        <a href="/products/comingsoon">Coming soon</a>
-        <a class="active" href="">Update product</a>
+        <a class="active" href="/products/import/price">Create invoices</a>
+        <a href="/products/import/history">Order history</a>
       </div>
 
-      <form
+      <div
         style="padding-top: 20px"
-        method="post"
-        action="/products/update/handle"
       >
-      <input type="text" value="<%=product.id%>" hidden name="id">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">@</span>
+            <span class="input-group-text" id="basic-addon1">Quantity</span>
           </div>
           <input
-            type="text"
+            type="number"
             class="form-control"
-            placeholder="Product name"
+            placeholder="Quantity"
             aria-describedby="basic-addon1"
-            name="productName"
             autocomplete="off"
             required
-            value="<%=product.product_name%>"
+            id="inputQuantity"
           />
         </div>
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text">Category</span>
+            <span class="input-group-text" id="basic-addon1">USD</span>
           </div>
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            name="idCategory"
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Cost"
+            aria-describedby="basic-addon1"
+            autocomplete="off"
             required
-          >
-            <% categories.forEach(item=> { %>
-                <option value="<%=item.ID%>" <%if (product.id_category === item.ID) {%>selected<%}%>>
-                    <%=item.CATEGORY_NAME%>
-                </option>
-            <% }); %>
-          </select>
+            id="inputCost"
+          />
         </div>
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text">Company</span>
+            <span class="input-group-text" id="basic-addon1">USD</span>
+          </div>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Price"
+            aria-describedby="basic-addon1"
+            name="giaBan"
+            autocomplete="off"
+            required
+            id="inputPrice"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Product</span>
           </div>
           <select
             class="form-select"
             aria-label="Default select example"
-            name="idCompany"
             required
+            id="product"
           >
-            <% companies.forEach(item=> { %>
-                <option value="<%=item.ID%>" <%if (product.created_by_company === item.ID) {%>selected<%}%> >
-                    <%=item.COMPANY_NAME%>
-                </option>
+            <% data.forEach(item=> { %>
+              <option value="<%=item.id%>"><%=item.product_name%></option>
             <% }); %>
           </select>
         </div>
 
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Description</span>
-          </div>
-          <textarea
-            class="form-control"
-            aria-label="With textarea"
-            name="description"
-            required
-          ><%=product.description%></textarea>
-        </div>
-
         <br />
-        <button type="submit" class="btn btn-success">Update product</button>
-      </form>
+        <button id="buttonCreate" class="btn btn-success">Create invoices</button>
+      </div>
     </div>
 
     <!-- Modal -->
@@ -185,5 +164,54 @@
         </div>
       </div>
     </div>
+
+    <script>
+        const spn = document.getElementById('product')
+        const buttonCreate = document.getElementById('buttonCreate')
+        const inputCost = document.getElementById('inputCost')
+        const inputPrice = document.getElementById('inputPrice')
+        const inputQuantity = document.getElementById('inputQuantity')
+
+        buttonCreate.addEventListener('click', async () => {
+          const idProduct = spn.value
+          const cost = String(inputCost.value).trim()
+          const price = String(inputPrice.value).trim()
+          const quantity = String(inputQuantity.value).trim()
+
+          if (!cost || !price || !quantity || cost <= 0 || price <= 0 || quantity <= 0) {
+            alert('Fields cannot be left blank!')
+            return
+          }
+
+          const isConfirm = confirm(`Are you sure to add this data?\nCost: ${cost}usd\nPrice: ${price}usd`)
+          if (isConfirm == 1) {
+            fetch('http://127.0.0.1:7903/duylt/api/v1/manager/products/import/price/goods', {
+              method: 'POSt',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                idProduct: idProduct,
+                cost: cost,
+                price: price,
+                quantity: quantity
+              })
+            })
+              .then(res => { return res.json() })
+              .then(res => {
+                const {message, code} = res
+                if (code == 0) {
+                  alert(message)
+                } else {
+                  window.location.href = '/products'
+                }
+              })
+              .catch(err => {
+                alert(err.message)
+              })
+          }
+        })
+    </script>
   </body>
 </html>

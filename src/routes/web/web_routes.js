@@ -17,6 +17,11 @@ const initWebRoute = (app) => {
     app.get('/companies/update/:id', WebController.getCompanyUpdatePage)
     app.get('/products/add', WebController.getProductAddPage)
     app.get('/products/update/:id', WebController.getProductUpdatePage)
+    app.get('/products/soldout', WebController.getProductSoldOut)
+    app.get('/products/selling', WebController.getProductSelling)
+    app.get('/products/goodreview', WebController.getProductGoodReview)
+    app.get('/products/comingsoon', WebController.getProductCommingSoon)
+    app.get('/products/import/price', WebController.getImportPriceProductPage)
 
     app.post('/categories/search', WebController.handleSearchCategoryByName)
     app.post('/products/add/handle', (req, res, next) => {
@@ -28,8 +33,7 @@ const initWebRoute = (app) => {
                 res.send(`Error 2: ${err}`)
             }
             else {
-                // make sure to call next() if all was well
-                next();
+                next()
             }
         })
     }, WebController.handleAddProduct)

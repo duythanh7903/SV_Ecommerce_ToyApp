@@ -93,7 +93,8 @@ const getProductPage = async (req, res) => {
         FROM PRODUCTS
         JOIN managers ON managers.ID = products.created_by_manager
         JOIN categories ON categories.id = products.id_category
-        JOIN  companies ON companies.ID = products.created_by_company`
+        JOIN  companies ON companies.ID = products.created_by_company
+        ORDER BY STR_TO_DATE(products.created_at, '%d/%m/%Y %H:%i:%s') DESC`
     const [products, fields] = await pool.execute(querySelectAllProduct)
 
     return res.render('products/products_page.ejs', {
@@ -130,6 +131,102 @@ const getProductUpdatePage = async (req, res) => {
         companies: companies,
         product: products[0],
         images: images
+    })
+}
+
+const getProductSoldOut = async (req, res) => {
+    const querySelectAllProduct = 
+        `SELECT products.*, managers.user_name as manager_name,
+        categories.category_name, companies.company_name 
+        FROM PRODUCTS
+        JOIN managers ON managers.ID = products.created_by_manager
+        JOIN categories ON categories.id = products.id_category
+        JOIN  companies ON companies.ID = products.created_by_company
+        WHERE products.quantity <= 10 and products.gia_ban != 0 and products.gia_nhap != 0
+        ORDER BY products.quantity DESC`
+    const [products, fields] = await pool.execute(querySelectAllProduct)
+
+    return res.render('products/products_sold_out.ejs', {
+        data: products
+    })
+}
+
+const getProductSelling = async (req, res) => {
+    const querySelectAllProduct = 
+        `SELECT products.*, managers.user_name as manager_name,
+        categories.category_name, companies.company_name 
+        FROM PRODUCTS
+        JOIN managers ON managers.ID = products.created_by_manager
+        JOIN categories ON categories.id = products.id_category
+        JOIN  companies ON companies.ID = products.created_by_company
+        ORDER BY products.purchases DESC LIMIT 10`
+    const [products, fields] = await pool.execute(querySelectAllProduct)
+
+    return res.render('products/products_selling_page.ejs', {
+        data: products
+    })
+}
+
+const getProductGoodReview = async (req, res) => {
+    const query = 
+        `
+        SELECT 
+            products.*, 
+            managers.user_name as manager_name,
+            categories.category_name, 
+            companies.company_name,
+            ROUND(
+                CASE 
+                    WHEN sum_vote = 0 THEN 0
+                    ELSE sum_star / sum_vote
+                END,
+                1 
+            ) AS avg_point    
+        FROM 
+            PRODUCTS
+        JOIN 
+            managers ON managers.ID = products.created_by_manager
+        JOIN 
+            categories ON categories.id = products.id_category
+        JOIN  
+            companies ON companies.ID = products.created_by_company
+        ORDER BY 
+            avg_point DESC 
+        LIMIT 10;
+        `
+    const [rows, fields] = await pool.execute(query)
+
+    return res.render('products/products_good_review.ejs', {
+        data: rows
+    })
+}
+
+const getProductCommingSoon = async (req, res) => {
+    const querySelectAllProduct = 
+        `SELECT products.*, managers.user_name as manager_name,
+        categories.category_name, companies.company_name 
+        FROM PRODUCTS
+        JOIN managers ON managers.ID = products.created_by_manager
+        JOIN categories ON categories.id = products.id_category
+        JOIN  companies ON companies.ID = products.created_by_company
+        WHERE products.gia_ban = 0 AND products.gia_nhap = 0
+        ORDER BY STR_TO_DATE(products.created_at, '%d/%m/%Y %H:%i:%s') DESC`
+    const [products, fields] = await pool.execute(querySelectAllProduct)
+
+    return res.render('products/products_comming_soon.ejs', {
+        data: products
+    })
+}
+
+const getImportPriceProductPage = async (req, res) => { 
+    const querySelectAllProduct =   
+        `SELECT products.id, products.product_name 
+        FROM products
+        ORDER BY STR_TO_DATE(products.created_at, '%d/%m/%Y %H:%i:%s') DESC`
+    const [rows, fields] = await pool.execute(querySelectAllProduct)
+
+    return res.render('products/products_import_price.ejs', {
+        data: rows
     })
 }
 
@@ -233,7 +330,8 @@ const WebController = {
     getCompanyPage, getCompanyAddPage, getCompanyUpdatePage,
 
     getProductPage, getProductAddPage, handleAddProduct, handleShowDetailsProduct, 
-    getProductUpdatePage, handleUpdateProduct
+    getProductUpdatePage, handleUpdateProduct, getProductSoldOut, getProductSelling,
+    getProductGoodReview, getProductCommingSoon, getImportPriceProductPage
 }
 
 export default WebController

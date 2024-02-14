@@ -6,6 +6,7 @@ import { pool } from '../../../configs/database.js'
 import CompanySchema from '../../../model/Company.js'
 import DateTime from '../../../utils/Date.js'
 import MyQueries from '../../../utils/QueriesData.js'
+import {v4 as uuidV4} from 'uuid'
 
 const handleSignUp = async (req, res) => {
     const {email, user_name, password} = req.body
@@ -269,6 +270,37 @@ const handleDeleteProduct = async (req, res) => {
     }
 }
 
+const handleImportPriceOfGoods = async (req, res) => {
+    const {idProduct, cost, price, quantity} = req.body
+    const createdAt = DateTime.getTimeNow()
+    const updatedAt = createdAt
+    const sumPrice = quantity * cost
+    const idBill = uuidV4()
+    const queryUpdatePriceProduct = 
+        `UPDATE products
+        SET gia_nhap = ${cost}, gia_ban = ${price}, updated_at = '${updatedAt}'
+        WHERE products.id = '${idProduct}'`
+    const queryCreateBillImport = 
+        `INSERT INTO bill_import_goods (id, created_by_manager, id_product, gia_nhap, quantity_import, tong_hoa_don, created_at)
+        VALUES ('${idBill}', 'a36d8cec-0793-404c-b', '${idProduct}', ${cost}, ${quantity}, ${sumPrice}, '${createdAt}')`
+    
+    try {
+        await pool.execute(queryUpdatePriceProduct)
+        await pool.execute(queryCreateBillImport)
+
+        return res.status(200).json({
+            message: '',
+            code: Constants.CODE_API_SUCCESS
+        })
+    } catch(err) {
+        console.error(`ERROR WHEN UPDATE PRODUCT: ${err.message}`)
+        return res.status(200).json({
+            message: Constants.MESSAGE_ERROR,
+            code: Constants.CODE_API_FAIL
+        })
+    }
+}
+
 const ManagerController =  {
     handleSignUp, handleLogin,
 
@@ -276,7 +308,7 @@ const ManagerController =  {
 
     handleAddCompany, handleUpdateCompany, handleDeleteCompany,
 
-    handleDeleteProduct,
+    handleDeleteProduct, handleImportPriceOfGoods
 }
 
 export default ManagerController

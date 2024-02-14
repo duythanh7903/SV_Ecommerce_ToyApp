@@ -59,10 +59,10 @@
       <div class="topnav">
         <a href="/products">All product</a>
         <a href="/products/add">Add product</a>
-        <a class="active" href="/products/soldout">Sold out</a>
+        <a href="/products/soldout">Sold out</a>
         <a href="/products/selling">Selling</a>
         <a href="/products/goodreview">Good review</a>
-        <a href="/products/comingsoon">Coming soon</a>
+        <a class="active" href="/products/comingsoon">Coming soon</a>
         <div class="search-container">
           <form action="/product/search" method="post">
             <input type="text" placeholder="Search by name" name="search" />
@@ -77,7 +77,7 @@
             <tr class="w3-light-grey">
               <th class="text-center">#</th>
               <th class="text-center">Product name</th>
-              <th class="text-center">Quantity</th>
+              <th class="text-center">Cost</th>
               <th class="text-center">Created by</th>
               <th class="text-center">Created at</th>
               <th class="text-center">Updated at</th>
@@ -93,7 +93,8 @@
                 '...') : (data[i].product_name)%>
               </td>
               <td class="text-center">
-                <%=data[i].quantity%> <%=(data[i].quantity > 1) ? 'products' : 'product'%>
+                <%=Number(data[i].gia_ban).toLocaleString('us-US', {style:
+                    'currency' , currency: 'USD' })%>
               </td>
               <td class="text-center"><%=data[i].manager_name%></td>
               <td class="text-center"><%=data[i].created_at.slice(0, 10).trim()%></td>

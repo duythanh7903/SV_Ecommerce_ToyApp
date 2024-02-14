@@ -8,6 +8,7 @@ const initApiRoutes = (app) => {
     routes.post('/manager/login', ManagerController.handleLogin)
     routes.post('/manager/categories/add', ManagerController.handleAddCategory)
     routes.post('/manager/companies/add', ManagerController.handleAddCompany)
+    routes.post('/manager/products/import/price/goods', ManagerController.handleImportPriceOfGoods)
 
     routes.delete('/manager/categories/delete', ManagerController.handleDeleteCategory)
     routes.delete('/manager/companies/delete/:id', ManagerController.handleDeleteCompany)
