@@ -278,7 +278,7 @@ const handleImportPriceOfGoods = async (req, res) => {
     const idBill = uuidV4()
     const queryUpdatePriceProduct = 
         `UPDATE products
-        SET gia_nhap = ${cost}, gia_ban = ${price}, updated_at = '${updatedAt}'
+        SET gia_nhap = ${cost}, gia_ban = ${price}, updated_at = '${updatedAt}', quantity = products.quantity + ${quantity}
         WHERE products.id = '${idProduct}'`
     const queryCreateBillImport = 
         `INSERT INTO bill_import_goods (id, created_by_manager, id_product, gia_nhap, quantity_import, tong_hoa_don, created_at)

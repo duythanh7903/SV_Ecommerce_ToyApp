@@ -22,6 +22,8 @@ const initWebRoute = (app) => {
     app.get('/products/goodreview', WebController.getProductGoodReview)
     app.get('/products/comingsoon', WebController.getProductCommingSoon)
     app.get('/products/import/price', WebController.getImportPriceProductPage)
+    app.get('/products/import/history', WebController.getHistoryBillImportProduct)
+    app.get('/products/details/:id', WebController.handleShowDetailsProduct)
 
     app.post('/categories/search', WebController.handleSearchCategoryByName)
     app.post('/products/add/handle', (req, res, next) => {

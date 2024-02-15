@@ -93,7 +93,7 @@
                 '...') : (data[i].product_name)%>
               </td>
               <td class="text-center">
-                <%=data[i].purchases%>
+                <%=data[i].purchases%> <%=data[i].purchases > 1 ? 'times' : 'time'%>
               </td>
               <td class="text-center"><%=data[i].manager_name%></td>
               <td class="text-center"><%=data[i].created_at.slice(0, 10).trim()%></td>

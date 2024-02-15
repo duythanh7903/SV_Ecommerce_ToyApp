@@ -183,7 +183,7 @@
             return
           }
 
-          const isConfirm = confirm(`Are you sure to add this data?\nCost: ${cost}usd\nPrice: ${price}usd`)
+          const isConfirm = confirm(`Are you sure to add this data?\nCost: ${cost} USD\nPrice: ${price} USD\nQuantity: ${quantity}\n`)
           if (isConfirm == 1) {
             fetch('http://127.0.0.1:7903/duylt/api/v1/manager/products/import/price/goods', {
               method: 'POSt',
@@ -204,7 +204,7 @@
                 if (code == 0) {
                   alert(message)
                 } else {
-                  window.location.href = '/products'
+                  window.location.href = '/products/details/' + idProduct
                 }
               })
               .catch(err => {

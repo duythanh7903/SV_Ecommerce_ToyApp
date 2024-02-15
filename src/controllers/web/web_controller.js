@@ -230,6 +230,21 @@ const getImportPriceProductPage = async (req, res) => {
     })
 }
 
+const getHistoryBillImportProduct = async (req, res) => {
+    const querySelectAllBill = 
+        `SELECT bill_import_goods.*, products.product_name, managers.user_name as manager_name
+        FROM bill_import_goods
+        JOIN products ON products.id = bill_import_goods.id_product
+        JOIN managers ON managers.id = bill_import_goods.created_by_manager
+        ORDER BY STR_TO_DATE(bill_import_goods.created_at, '%d/%m/%Y %H:%i:%s') DESC`
+    
+    const [rows, fields] = await pool.execute(querySelectAllBill)
+
+    return res.render('products/products_history_import.ejs', {
+        data: rows
+    })
+}
+
 /*
     In this function, first  we verify if the request is a post or not, 
     then we make some validations and finally we add the product to the database.
@@ -331,7 +346,8 @@ const WebController = {
 
     getProductPage, getProductAddPage, handleAddProduct, handleShowDetailsProduct, 
     getProductUpdatePage, handleUpdateProduct, getProductSoldOut, getProductSelling,
-    getProductGoodReview, getProductCommingSoon, getImportPriceProductPage
+    getProductGoodReview, getProductCommingSoon, getImportPriceProductPage,
+    getHistoryBillImportProduct
 }
 
 export default WebController
